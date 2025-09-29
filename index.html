@@ -260,14 +260,14 @@
             font-weight: bold;
         }
 
-        .email-form {
+        .phone-form {
             display: flex;
             flex-direction: column;
             gap: 12px;
             align-items: center;
         }
 
-        .email-input {
+        .phone-input {
             padding: 12px 16px;
             border: 2px solid #DC143C;
             border-radius: 20px;
@@ -279,11 +279,27 @@
             transition: all 0.3s ease;
         }
 
-        .email-input:focus {
+        .phone-input:focus {
             outline: none;
             box-shadow: 0 0 12px rgba(220, 20, 60, 0.3);
             transform: scale(1.02);
             background: white;
+        }
+
+        .success-message {
+            display: none;
+            color: #228B22;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .error-message {
+            display: none;
+            color: #DC143C;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
 
         .notify-btn {
@@ -419,12 +435,12 @@
                 margin-top: 5px;
             }
             
-            .email-form {
+            .phone-form {
                 flex-direction: row;
                 gap: 15px;
             }
             
-            .email-input {
+            .phone-input {
                 min-width: 220px;
                 max-width: none;
             }
@@ -528,11 +544,11 @@
                 margin-bottom: 20px;
             }
             
-            .email-form {
+            .phone-form {
                 gap: 10px;
             }
             
-            .email-input {
+            .phone-input {
                 min-width: 250px;
                 font-size: 1rem;
                 border-radius: 25px;
@@ -608,13 +624,14 @@
         
         <div class="notify-section">
             <p class="notify-text">🥒 Be the first to taste the tradition! 🌶️</p>
-            <div class="email-form">
-                <input type="email" class="email-input" placeholder="Enter your email address">
+            <div class="phone-form">
+                <input type="tel" class="phone-input" placeholder="Enter your phone number" pattern="[0-9]{10}" maxlength="10">
                 <button class="notify-btn">Notify Me</button>
             </div>
+            <p class="success-message" id="successMessage">✅ Thank you! We'll notify you soon!</p>
+            <p class="error-message" id="errorMessage">❌ Please enter a valid 10-digit phone number</p>
         </div>
         
-    
     </div>
 
     <script>
@@ -649,22 +666,77 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call
         
-        // Email notification functionality
+        // Phone number submission functionality
         document.querySelector('.notify-btn').addEventListener('click', function() {
-            const email = document.querySelector('.email-input').value;
-            if (email && email.includes('@')) {
-                alert('Thank you! We\'ll notify you when Kudlaruchi launches. Get ready for a pickle party! 🥒🌶️');
-                document.querySelector('.email-input').value = '';
+            const phoneInput = document.querySelector('.phone-input');
+            const phone = phoneInput.value.trim();
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Validate phone number (10 digits)
+            const phoneRegex = /^[0-9]{10}$/;
+            
+            if (phoneRegex.test(phone)) {
+                // Create phone data object
+                const phoneData = {
+                    phone: phone,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleString()
+                };
+                
+                // Get existing data from localStorage
+                let phoneList = [];
+                const existingData = localStorage.getItem('kudlaruchi_phones');
+                if (existingData) {
+                    try {
+                        phoneList = JSON.parse(existingData);
+                    } catch (e) {
+                        phoneList = [];
+                    }
+                }
+                
+                // Check if phone already exists
+                const phoneExists = phoneList.some(entry => entry.phone === phone);
+                
+                if (!phoneExists) {
+                    // Add new phone number
+                    phoneList.push(phoneData);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('kudlaruchi_phones', JSON.stringify(phoneList));
+                    
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    phoneInput.value = '';
+                    
+                    console.log('Phone number saved:', phoneData);
+                    console.log('All saved numbers:', phoneList);
+                } else {
+                    // Phone already exists
+                    successMessage.textContent = '✅ You\'re already on our list!';
+                    successMessage.style.display = 'block';
+                    phoneInput.value = '';
+                }
             } else {
-                alert('Please enter a valid email address.');
+                // Show error message
+                errorMessage.style.display = 'block';
             }
         });
         
-        // Enter key support for email input
-        document.querySelector('.email-input').addEventListener('keypress', function(e) {
+        // Enter key support for phone input
+        document.querySelector('.phone-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 document.querySelector('.notify-btn').click();
             }
+        });
+        
+        // Only allow numbers in phone input
+        document.querySelector('.phone-input').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
         });
     </script>
 </body>
