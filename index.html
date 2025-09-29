@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #8B4513 0%, #D2B48C 50%, #CD853F 100%);
+            background: #F5DEB3;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,22 +23,75 @@
             overflow-x: hidden;
         }
 
-        .background-pattern {
+        /* Decorative pickle jars */
+        .pickle-jar {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            background-image: radial-gradient(circle at 20% 80%, #DC143C 2px, transparent 2px),
-                              radial-gradient(circle at 80% 20%, #DC143C 2px, transparent 2px);
-            background-size: 100px 100px;
-            animation: float 20s ease-in-out infinite;
+            opacity: 0.08;
+            pointer-events: none;
         }
 
-        @keyframes float {
+        .jar-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 80px;
+            animation: float1 8s ease-in-out infinite;
+        }
+
+        .jar-2 {
+            top: 60%;
+            right: 8%;
+            font-size: 100px;
+            animation: float2 10s ease-in-out infinite;
+        }
+
+        .jar-3 {
+            bottom: 15%;
+            left: 10%;
+            font-size: 90px;
+            animation: float1 12s ease-in-out infinite;
+        }
+
+        .jar-4 {
+            top: 30%;
+            right: 15%;
+            font-size: 70px;
+            animation: float2 9s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(1deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(30px) rotate(-5deg); }
+        }
+
+        /* Chili pepper decorations */
+        .chili {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+            animation: swing 4s ease-in-out infinite;
+        }
+
+        .chili-1 {
+            top: 20%;
+            left: 15%;
+            font-size: 50px;
+        }
+
+        .chili-2 {
+            bottom: 25%;
+            right: 12%;
+            font-size: 60px;
+            animation-delay: 2s;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
         }
 
         .container {
@@ -46,11 +99,6 @@
             width: 95%;
             max-width: 400px;
             padding: 20px 15px;
-            background: rgba(245, 245, 220, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(220, 20, 60, 0.2);
             position: relative;
             z-index: 1;
             animation: slideUp 1s ease-out;
@@ -66,6 +114,39 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* Pickle jar badge behind logo */
+        .jar-badge {
+            display: inline-block;
+            background: #DC143C;
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 10px 40px rgba(220, 20, 60, 0.4);
+            position: relative;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 40px rgba(220, 20, 60, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 50px rgba(220, 20, 60, 0.6); }
+        }
+
+        .jar-badge::before {
+            content: '🥒';
+            font-size: 70px;
+            position: absolute;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .logo {
@@ -86,6 +167,14 @@
             font-style: italic;
         }
 
+        .tagline {
+            font-size: 1.1rem;
+            color: #DC143C;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
         .coming-soon {
             font-size: 1.8rem;
             color: #DC143C;
@@ -102,6 +191,10 @@
             margin-bottom: 25px;
             line-height: 1.5;
             padding: 0 10px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px dashed #DC143C;
         }
 
         .countdown {
@@ -124,27 +217,13 @@
             text-align: center;
         }
 
-        .time-unit::before {
-            content: '';
+        .time-unit::after {
+            content: '🌶️';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
-            opacity: 0;
-        }
-
-        .time-unit:hover::before {
-            animation: shine 0.6s ease-in-out;
-        }
-
-        @keyframes shine {
-            0% { opacity: 0; transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            50% { opacity: 1; }
-            100% { opacity: 0; transform: translateX(100%) translateY(100%) rotate(45deg); }
+            top: 5px;
+            right: 5px;
+            font-size: 12px;
+            opacity: 0.3;
         }
 
         .time-unit:hover {
@@ -168,12 +247,17 @@
 
         .notify-section {
             margin-top: 25px;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(220, 20, 60, 0.2);
         }
 
         .notify-text {
             color: #8B4513;
             margin-bottom: 15px;
             font-size: 0.9rem;
+            font-weight: bold;
         }
 
         .email-form {
@@ -199,6 +283,7 @@
             outline: none;
             box-shadow: 0 0 12px rgba(220, 20, 60, 0.3);
             transform: scale(1.02);
+            background: white;
         }
 
         .notify-btn {
@@ -242,6 +327,7 @@
             text-decoration: none;
             font-size: 1.3rem;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
         }
 
         .social-link:hover {
@@ -249,18 +335,48 @@
             box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4);
         }
 
+        /* Pickle pattern background */
+        .pickle-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 20% 30%, #228B22 3px, transparent 3px),
+                radial-gradient(circle at 60% 70%, #228B22 2px, transparent 2px),
+                radial-gradient(circle at 80% 20%, #228B22 2.5px, transparent 2.5px);
+            background-size: 150px 150px;
+            pointer-events: none;
+        }
+
         /* Tablet and larger screens */
         @media (min-width: 768px) {
             .container {
                 max-width: 600px;
                 padding: 30px 25px;
-                border-radius: 18px;
+            }
+
+            .jar-badge {
+                width: 160px;
+                height: 160px;
+                margin-bottom: 20px;
+            }
+
+            .jar-badge::before {
+                font-size: 85px;
             }
             
             .logo {
                 font-size: 3rem;
                 margin-bottom: 12px;
                 letter-spacing: -0.8px;
+            }
+
+            .tagline {
+                font-size: 1.3rem;
+                margin-bottom: 25px;
             }
             
             .coming-soon {
@@ -277,7 +393,7 @@
             .description {
                 font-size: 1rem;
                 margin-bottom: 35px;
-                padding: 0 20px;
+                padding: 20px;
             }
             
             .countdown {
@@ -327,6 +443,13 @@
                 height: 48px;
                 font-size: 1.4rem;
             }
+
+            .jar-1 { font-size: 120px; }
+            .jar-2 { font-size: 140px; }
+            .jar-3 { font-size: 130px; }
+            .jar-4 { font-size: 100px; }
+            .chili-1 { font-size: 70px; }
+            .chili-2 { font-size: 80px; }
         }
 
         /* Desktop screens */
@@ -334,12 +457,26 @@
             .container {
                 max-width: 800px;
                 padding: 40px 30px;
-                border-radius: 20px;
+            }
+
+            .jar-badge {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 25px;
+            }
+
+            .jar-badge::before {
+                font-size: 100px;
             }
             
             .logo {
                 font-size: 3.5rem;
                 letter-spacing: -1px;
+            }
+
+            .tagline {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
             }
             
             .coming-soon {
@@ -357,6 +494,7 @@
                 font-size: 1.1rem;
                 margin-bottom: 40px;
                 line-height: 1.6;
+                padding: 25px;
             }
             
             .countdown {
@@ -382,6 +520,7 @@
             
             .notify-section {
                 margin-top: 30px;
+                padding: 25px;
             }
             
             .notify-text {
@@ -414,21 +553,38 @@
                 height: 50px;
                 font-size: 1.5rem;
             }
+
+            .jar-1 { font-size: 150px; }
+            .jar-2 { font-size: 180px; }
+            .jar-3 { font-size: 160px; }
+            .jar-4 { font-size: 120px; }
+            .chili-1 { font-size: 90px; }
+            .chili-2 { font-size: 100px; }
         }
     </style>
 </head>
 <body>
-    <div class="background-pattern"></div>
+    <!-- Decorative background elements -->
+    <div class="pickle-pattern"></div>
+    <div class="pickle-jar jar-1">🫙</div>
+    <div class="pickle-jar jar-2">🫙</div>
+    <div class="pickle-jar jar-3">🫙</div>
+    <div class="pickle-jar jar-4">🫙</div>
+    <div class="chili chili-1">🌶️</div>
+    <div class="chili chili-2">🌶️</div>
     
     <div class="container">
+        <div class="jar-badge"></div>
+        
         <h1 class="logo">Kudlaruchi</h1>
-        <p class="subtitle">Something Amazing is Coming</p>
+        <p class="tagline">🥒 Pickled to Perfection 🌶️</p>
+        <p class="subtitle">Authentic Indian Pickles</p>
         
         <h2 class="coming-soon">Coming Soon</h2>
         
         <p class="description">
-            We're working hard to bring you something extraordinary. 
-            Stay tuned for an amazing experience that's worth the wait!
+            Get ready to tantalize your taste buds! We're bringing you the finest traditional pickles, 
+            crafted with love and authentic spices. A burst of flavor is on its way!
         </p>
         
         <div class="countdown">
@@ -451,13 +607,14 @@
         </div>
         
         <div class="notify-section">
-            <p class="notify-text">Be the first to know when we launch!</p>
+            <p class="notify-text">🥒 Be the first to taste the tradition! 🌶️</p>
             <div class="email-form">
                 <input type="email" class="email-input" placeholder="Enter your email address">
                 <button class="notify-btn">Notify Me</button>
             </div>
         </div>
         
+    
     </div>
 
     <script>
@@ -496,7 +653,7 @@
         document.querySelector('.notify-btn').addEventListener('click', function() {
             const email = document.querySelector('.email-input').value;
             if (email && email.includes('@')) {
-                alert('Thank you! We\'ll notify you when Kudlaruchi launches.');
+                alert('Thank you! We\'ll notify you when Kudlaruchi launches. Get ready for a pickle party! 🥒🌶️');
                 document.querySelector('.email-input').value = '';
             } else {
                 alert('Please enter a valid email address.');
